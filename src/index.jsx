@@ -4,7 +4,12 @@ import ReactDOM from 'react-dom/client';
 
 import images from './assets/images.json';
 
-//
+// true && 'hello world' -> 'hello world'
+// false && 'hello world' -> false
+// true || 'hello world' -> true
+// false || 'hello world' -> 'hello world'
+// true ? 'hello world' : 'bye world' -> 'hello world'
+// false ? 'hello world' : 'bye world' -> 'bye world'
 const Img = ({ src, alt }) => {
   return src ? <img width="200px" src={src} alt={alt} /> : 'немає картинки';
 };
