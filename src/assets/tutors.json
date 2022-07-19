@@ -1,20 +1,22 @@
 [
-    {
-        "firstName": "Мария",
-        "lastName": "Руденко",
-        "patronymic": "Александровна",
-        "phone": "+38(097) 448 73 11",
-        "email": "rudenko.mail@gmail.com",
-        "city": "Полтава",
-        "options": "Создание групп"
-    },
-    {
-        "firstName": "Елена",
-        "lastName": "Иванова",
-        "patronymic": "Александровна",
-        "phone": "+38(093) 443 43 51",
-        "email": "ivanova.mail@gmail.com",
-        "city": "Берлин",
-        "options": "Создание групп, редактировани профилей преподавателей"
-    }
+  {
+    "firstName": "Мария",
+    "lastName": "Руденко",
+    "patronymic": "Александровна",
+    "phone": "+38(097) 448 73 11",
+    "email": "rudenko.mail@gmail.com",
+    "city": "Полтава",
+    "options": "Создание групп",
+    "avatar": "https://images.unsplash.com/photo-1658200685735-074e6bb53fcf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80"
+  },
+  {
+    "firstName": "Елена",
+    "lastName": "Иванова",
+    "patronymic": "Александровна",
+    "phone": "+38(093) 443 43 51",
+    "email": "ivanova.mail@gmail.com",
+    "city": "Берлин",
+    "options": "Создание групп, редактировани профилей преподавателей",
+    "avatar": "https://images.unsplash.com/photo-1658212895484-4cfbd6850592?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80"
+  }
 ]

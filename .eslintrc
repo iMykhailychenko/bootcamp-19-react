@@ -22,7 +22,9 @@
   ],
   "rules": {
     "max-len": "off",
+    "prefer-template": "off",
     "no-alert": "off",
+    "react/require-default-props": "off",
     "arrow-parens": "off",
     "arrow-body-style": "off",
     "react/jsx-props-no-spreading": "off",

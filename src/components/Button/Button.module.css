@@ -1,0 +1,7 @@
+.btn {
+  color: red;
+}
+
+:global(.text) {
+  font-size: 20px;
+}
