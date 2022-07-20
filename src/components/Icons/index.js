@@ -1,0 +1,10 @@
+export { BookIcon } from './BookIcon';
+export { StudyIcon } from './StudyIcon';
+export { EditIcon } from './EditIcon';
+export { DeleteIcon } from './DeleteIcon';
+export { PlusIcon } from './PlusIcon';
+export { UserIcon } from './UserIcon';
+export { PhoneIcon } from './PhoneIcon';
+export { SettingsIcon } from './SettingsIcon';
+export { MailIcon } from './MailIcon';
+export { LocationIcon } from './LocationIcon';
