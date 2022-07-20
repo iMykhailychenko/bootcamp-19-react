@@ -3,8 +3,8 @@ import './styles/index.css';
 
 import PropTypes from 'prop-types';
 
+import { DepartmentsList } from './components/DepartmentsList/DepartmentsList';
 import { Content } from './components/Layout/Content/Content';
-import { DepartmentsList } from './components/Layout/DepartmentsList/DepartmentsList';
 import { Main } from './components/Layout/Main/Main';
 import { Sidebar } from './components/Layout/Sidebar/Sidebar';
 import { Modal } from './components/Modal/Modal';

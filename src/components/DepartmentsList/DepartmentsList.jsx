@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import departments from '../../../assets/department.json';
+import departments from '../../assets/department.json';
 
 export class DepartmentsList extends Component {
   state = {
