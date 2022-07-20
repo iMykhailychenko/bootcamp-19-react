@@ -8,8 +8,8 @@ export class Modal extends Component {
   };
 
   state = {
-    plus: 0,
-    minus: 100,
+    left: 0,
+    right: 100,
   };
 
   handleCount = event => {
@@ -22,7 +22,7 @@ export class Modal extends Component {
 
   render() {
     const { onClose } = this.props;
-    const { plus, minus } = this.state;
+    const { left, right } = this.state;
 
     return (
       <>
@@ -38,17 +38,18 @@ export class Modal extends Component {
               </div>
 
               <div className="modal-body">
-                <div className="p-5">
-                  {plus} - {minus}
+                <div className="py-3">
+                  {left} - {right}
                 </div>
 
-                <button type="button" name="plus" className="btn btn-primary" onClick={this.handleCount}>
-                  +1
+                <button type="button" name="left" className="btn btn-primary" onClick={this.handleCount}>
+                  left
                 </button>
-                <button type="button" name="minus" className="btn btn-primary" onClick={this.handleCount}>
-                  -1
+                <button type="button" name="right" className="btn btn-primary ml-2" onClick={this.handleCount}>
+                  right
                 </button>
               </div>
+
               <div className="modal-footer">
                 <button type="button" className="btn btn-primary" onClick={onClose}>
                   Ok

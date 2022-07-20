@@ -61,20 +61,23 @@ export class App extends Component {
       <Main>
         <Sidebar />
         <Content>
-          {this.props.title}
           <button type="button" className="btn btn-primary" onClick={this.handleToggle}>
             Open modal
           </button>
 
-          <button type="button" className="btn btn-primary" onClick={this.handleCount}>
-            +1
-          </button>
-          {counter}
+          <div className="py-2">
+            <button type="button" className="btn btn-primary" onClick={this.handleCount}>
+              +1
+            </button>
+            <p>{counter}</p>
+          </div>
 
-          <button type="button" className="btn btn-primary" onClick={this.handleCount2}>
-            -1
-          </button>
-          {counter2}
+          <div className="py-2">
+            <button type="button" className="btn btn-primary" onClick={this.handleCount2}>
+              -1
+            </button>
+            <p>{counter2}</p>
+          </div>
 
           <DepartmentsList />
         </Content>
