@@ -13,7 +13,7 @@ import { Modal } from './components/Modal/Modal';
 //   ....
 //
 //   setState(state) {
-//     this.prevState = {...this.prevState, ...state}
+//     this.nextState = {...this.prevState, ...state}
 //     this.render()
 //   }
 // }
@@ -87,8 +87,3 @@ export class App extends Component {
     );
   }
 }
-
-// const element = new App(props) -> {.....}
-// const obj = {}
-// obj.name= ''
-// const App = (pro) => {....}
