@@ -82,7 +82,7 @@ export class App extends Component {
           <DepartmentsList />
         </Content>
 
-        {isModalOpen && <Modal onClose={this.handleToggle}>lorem</Modal>}
+        {isModalOpen && <Modal onClose={this.handleToggle} />}
       </Main>
     );
   }
