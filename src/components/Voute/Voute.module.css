@@ -1,0 +1,15 @@
+.iphone {
+  background: var(--main);
+}
+
+.android {
+  background: black;
+}
+
+.nokia {
+  background: green;
+}
+
+button {
+  color: white;
+}
