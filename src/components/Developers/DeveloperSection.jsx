@@ -39,13 +39,13 @@ export class DeveloperSection extends Component {
   componentDidMount() {
     // not good pattern
     // will return error if no data in localStorage. This error is catched in ErrorCatch component
-    this.setState({ developersList: JSON.parse(localStorage.getItem(DEVELOPERS_KEY)) });
+    // this.setState({ developersList: JSON.parse(localStorage.getItem(DEVELOPERS_KEY)) });
 
     // good pattern. catch error from where it appears
-    // const localData = localStorage.getItem(DEVELOPERS_KEY);
-    // if (localData) {
-    //    this.setState({ developersList: JSON.parse(localData) });
-    // }
+    const localData = localStorage.getItem(DEVELOPERS_KEY);
+    if (localData) {
+      this.setState({ developersList: JSON.parse(localData) });
+    }
   }
 
   componentDidUpdate(_, prevState) {
@@ -93,7 +93,7 @@ export class DeveloperSection extends Component {
     const newDevelopersList = applySearch(developersList, search);
 
     return (
-      <div style={{ overflow: 'hidden', position: 'relative' }}>
+      <>
         <div className="input-group mb-3">
           <button className="btn btn-outline-secondary" type="button" onClick={this.handleReset}>
             Reset
@@ -118,7 +118,7 @@ export class DeveloperSection extends Component {
             <NewDeveloperForm onSubmit={this.handleSubmit} />
           </Modal>
         )}
-      </div>
+      </>
     );
   }
 }

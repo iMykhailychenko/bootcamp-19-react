@@ -1,11 +1,15 @@
 import { Component, PureComponent } from 'react';
 
 class Button extends PureComponent {
+  // shouldComponentUpdate() {
+  //   return false;
+  // }
+
   render() {
     console.log('Console in Button');
     return (
       <button onClick={this.props.onCount} className="btn btn-primary" type="button">
-        this.props.label
+        {this.props.label}
       </button>
     );
   }
@@ -25,9 +29,9 @@ export class Counter extends Component {
     console.log('Console in Counter');
 
     return (
-      <div>
+      <div className="my-5">
         <p>{count}</p>
-        <Button onCount={this.handleCount} />
+        <Button label="Click on me!" onCount={this.handleCount} />
       </div>
     );
   }
