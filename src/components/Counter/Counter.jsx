@@ -4,7 +4,7 @@ class Button extends PureComponent {
   render() {
     console.log('Console in Button');
     return (
-      <button onClick={this.props.onCount} type="button">
+      <button onClick={this.props.onCount} className="btn btn-primary" type="button">
         this.props.label
       </button>
     );

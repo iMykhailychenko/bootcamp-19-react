@@ -13,7 +13,7 @@ export class ErrorCatch extends Component {
   };
 
   componentDidCatch(error, errorInfo) {
-    console.log(error);
+    console.log(error, errorInfo);
     if (error) {
       this.setState({ isError: true });
     }
@@ -21,7 +21,7 @@ export class ErrorCatch extends Component {
 
   render() {
     const { isError } = this.state;
-    return isError ? this.props.children : 'Something went wrong!';
+    return isError ? <p className="my-5 p-5 alert alert-warning">Something went wrong!</p> : this.props.children;
   }
 }
 
@@ -37,11 +37,15 @@ export class DeveloperSection extends Component {
   };
 
   componentDidMount() {
-    const localData = localStorage.getItem(DEVELOPERS_KEY);
+    // not good pattern
+    // will return error if no data in localStorage. This error is catched in ErrorCatch component
+    this.setState({ developersList: JSON.parse(localStorage.getItem(DEVELOPERS_KEY)) });
 
-    if (localData) {
-      this.setState({ developersList: JSON.parse(localData) });
-    }
+    // good pattern. catch error from where it appears
+    // const localData = localStorage.getItem(DEVELOPERS_KEY);
+    // if (localData) {
+    //    this.setState({ developersList: JSON.parse(localData) });
+    // }
   }
 
   componentDidUpdate(_, prevState) {
