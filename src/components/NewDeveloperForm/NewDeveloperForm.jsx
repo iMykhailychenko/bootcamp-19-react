@@ -27,7 +27,24 @@ export class NewDeveloperForm extends Component {
     onSubmit: PropTypes.func.isRequired,
   };
 
+  // constructor() {
+  //   super();
+  //   console.log('constructor');
+  // }
+
   state = { ...initialData };
+
+  // componentDidMount() {
+  //   console.log('componentDidMount');
+  // }
+  //
+  // componentDidUpdate() {
+  //   console.log('componentDidUpdate');
+  // }
+  //
+  // componentWillUnmount() {
+  //   console.log('componentWillUnmount');
+  // }
 
   handleChange = event => {
     const { value, name } = event.target;
@@ -46,6 +63,7 @@ export class NewDeveloperForm extends Component {
   };
 
   render() {
+    // console.log('render');
     const { firstName, lastName, phone, city, options, isFullTime, framework, isRemote } = this.state;
 
     return (
@@ -193,3 +211,6 @@ export class NewDeveloperForm extends Component {
     );
   }
 }
+
+// () => ....
+// new {....}

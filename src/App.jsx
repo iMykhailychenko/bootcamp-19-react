@@ -1,13 +1,13 @@
 import { Component } from 'react';
 import './styles/index.css';
 
-import { Card } from './components/Card/Card';
+import { Banner } from './components/Banner/Banner';
+import { Counter } from './components/Counter/Counter';
 import { DeveloperSection } from './components/Developers/DeveloperSection';
 import { Content } from './components/Layout/Content/Content';
 import { Main } from './components/Layout/Main/Main';
 import { Sidebar } from './components/Layout/Sidebar/Sidebar';
 import { Navigation } from './components/Navigation/Navigation';
-import { Voute } from './components/Voute/Voute';
 
 export class App extends Component {
   render() {
@@ -18,10 +18,11 @@ export class App extends Component {
         </Sidebar>
 
         <Content>
-          <DeveloperSection />
+          <Banner />
 
-          <Voute />
-          <Card />
+          <Counter />
+
+          <DeveloperSection />
         </Content>
       </Main>
     );

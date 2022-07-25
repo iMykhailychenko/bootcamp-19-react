@@ -1,32 +1,63 @@
 import { Component } from 'react';
 
-import developersJson from '../../assets/developers.json';
 import { Modal } from '../Modal/Modal';
 import { NewDeveloperForm } from '../NewDeveloperForm/NewDeveloperForm';
 
 import { DeveloperList } from './DeveloperList';
 
-/* developersList + search => filteredDevelopers */
-const applySearch = (developersList, search) => {
-  // arr.map
-  // arr.reduce
-  // arr.find
-  // arr.filter
-  // arr.some
-  // arr.every
-  // arr.forEach
+const DEVELOPERS_KEY = 'developers-key';
 
-  // search == 'ія'
-  // [{Марія}, {Іван}, {}].filter -> 1 developer -> developer.name == 'марія' -> new [{Марія}]
-  return developersList.filter(developer => developer.firstName.toLowerCase().includes(search.toLowerCase())); // firstName = 'Марія' includes ''
+export class ErrorCatch extends Component {
+  state = {
+    isError: false,
+  };
+
+  componentDidCatch(error, errorInfo) {
+    console.log(error);
+    if (error) {
+      this.setState({ isError: true });
+    }
+  }
+
+  render() {
+    const { isError } = this.state;
+    return isError ? this.props.children : 'Something went wrong!';
+  }
+}
+
+const applySearch = (developersList, search) => {
+  return developersList.filter(developer => developer.firstName.toLowerCase().includes(search.toLowerCase()));
 };
 
 export class DeveloperSection extends Component {
   state = {
     isModalOpen: false,
-    developersList: developersJson,
+    developersList: [],
     search: '',
   };
+
+  componentDidMount() {
+    const localData = localStorage.getItem(DEVELOPERS_KEY);
+
+    if (localData) {
+      this.setState({ developersList: JSON.parse(localData) });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { developersList } = this.state;
+    console.log('componentDidUpdate');
+
+    if (developersList.length !== prevState.developersList.length) {
+      console.log('update developers list');
+      localStorage.setItem(DEVELOPERS_KEY, JSON.stringify(developersList));
+    }
+
+    // {} === {}
+    // if (prevState.counter !== currentState.counter) {
+    //   this.setState({})
+    // }
+  }
 
   handleSearchChange = event => {
     this.setState({ search: event.target.value });
@@ -49,19 +80,16 @@ export class DeveloperSection extends Component {
 
   handleDelete = id => {
     this.setState(prevState => {
-      // [{id: 1},{id: 2},{id: 3}] => filter id 1 !== 1 => [{id: 2}, {id: 3}]
       return { developersList: prevState.developersList.filter(developer => developer.id !== id) };
     });
   };
 
   render() {
     const { isModalOpen, developersList, search } = this.state;
-
-    // (developersList (firstName) + filter) -> filteredDevelopersList
     const newDevelopersList = applySearch(developersList, search);
 
     return (
-      <>
+      <div style={{ overflow: 'hidden', position: 'relative' }}>
         <div className="input-group mb-3">
           <button className="btn btn-outline-secondary" type="button" onClick={this.handleReset}>
             Reset
@@ -86,7 +114,7 @@ export class DeveloperSection extends Component {
             <NewDeveloperForm onSubmit={this.handleSubmit} />
           </Modal>
         )}
-      </>
+      </div>
     );
   }
 }

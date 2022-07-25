@@ -1,16 +1,35 @@
 import { Component } from 'react';
 
 import PropTypes from 'prop-types';
+import { createPortal } from 'react-dom';
 
 export class Modal extends Component {
   static propTypes = {
+    title: PropTypes.string,
     children: PropTypes.node.isRequired,
   };
 
-  render() {
-    const { onClose, children } = this.props;
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleCloseModal);
+  }
 
-    return (
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleCloseModal);
+  }
+
+  handleCloseModal = event => {
+    console.log(event);
+    if (event.code === 'Escape') {
+      this.props.onClose();
+    }
+  };
+
+  render() {
+    const { onClose, title, children } = this.props;
+
+    // createPortal(<></>, document.body)
+
+    return createPortal(
       <>
         <div className="modal-backdrop fade show" />
 
@@ -18,7 +37,7 @@ export class Modal extends Component {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">My modal</h5>
+                {title && <h5 className="modal-title">{title}</h5>}
 
                 <button type="button" className="btn-close" onClick={onClose} />
               </div>
@@ -33,7 +52,8 @@ export class Modal extends Component {
             </div>
           </div>
         </div>
-      </>
+      </>,
+      document.body,
     );
   }
 }
