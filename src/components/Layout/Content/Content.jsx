@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-export const Content = ({ children }) => {
+export const Content = ({ children, title }) => {
   return (
     <div className="col-9 bg-light p-5 content">
-      <h1 className="pb-5">Информация о университете</h1>
+      {title && <h1 className="pb-5">{title}</h1>}
 
       {children}
     </div>
@@ -11,5 +11,6 @@ export const Content = ({ children }) => {
 };
 
 Content.propTypes = {
+  title: PropTypes.string,
   children: PropTypes.node,
 };

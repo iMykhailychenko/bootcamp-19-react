@@ -6,6 +6,8 @@ import { createPortal } from 'react-dom';
 export class Modal extends Component {
   static propTypes = {
     title: PropTypes.string,
+    onClose: PropTypes.func,
+    footer: PropTypes.node,
     children: PropTypes.node.isRequired,
   };
 
@@ -18,16 +20,13 @@ export class Modal extends Component {
   }
 
   handleCloseModal = event => {
-    console.log(event);
     if (event.code === 'Escape') {
       this.props.onClose();
     }
   };
 
   render() {
-    const { onClose, title, children } = this.props;
-
-    // createPortal(<></>, document.body)
+    const { onClose, title, children, footer } = this.props;
 
     return createPortal(
       <>
@@ -44,11 +43,7 @@ export class Modal extends Component {
 
               <div className="modal-body">{children}</div>
 
-              <div className="modal-footer">
-                <button type="button" className="btn btn-primary" onClick={onClose}>
-                  Ok
-                </button>
-              </div>
+              <div className="modal-footer">{footer}</div>
             </div>
           </div>
         </div>
