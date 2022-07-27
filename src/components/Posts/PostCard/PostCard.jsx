@@ -1,4 +1,4 @@
-import { cutString } from '../../helpers/cut-string';
+import { cutString } from '../../../helpers/cut-string';
 
 export const PostCard = ({ post }) => {
   return (
