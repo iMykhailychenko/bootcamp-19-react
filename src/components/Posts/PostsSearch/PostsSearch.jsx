@@ -1,59 +1,31 @@
-import { useEffect, useState } from 'react';
-// setQuery -> PostsSearch()
+import { useState } from 'react';
+
 export const PostsSearch = ({ onSubmit }) => {
-  // query
   const [query, setQuery] = useState('');
-  const [query2, setQuery2] = useState('');
-
-  const changeState = {
-    query: setQuery,
-    query2: setQuery2,
-  };
-
-  useEffect(() => {
-    console.log('hello world');
-    // done
-
-    return () => {
-      console.log('After hello world');
-    };
-  }, [query]);
 
   const handleChange = event => {
-    const { name, value } = event.target;
-    changeState[name](value);
+    const { value } = event.target;
+    setQuery(value);
   };
 
-  const handleSubmit = () => onSubmit(query);
+  const handleSubmit = event => {
+    event.preventDefault();
+    onSubmit(query);
+  };
 
   return (
-    <>
-      <p>query: {query}</p>
-      <p>query2: {query2}</p>
-
-      <div className="input-group mb-3">
-        <button className="btn btn-outline-secondary" type="button" onClick={handleSubmit}>
-          Submit
-        </button>
-
-        <input
-          value={query}
-          type="text"
-          name="query"
-          className="form-control"
-          placeholder="query"
-          onChange={handleChange}
-        />
-        <input
-          value={query2}
-          type="text"
-          name="query2"
-          className="form-control"
-          placeholder="query2"
-          onChange={handleChange}
-        />
-      </div>
-    </>
+    <form className="input-group mb-3 w-50" onSubmit={handleSubmit}>
+      <input
+        value={query}
+        type="search"
+        placeholder="Search posts ..."
+        className="form-control"
+        onChange={handleChange}
+      />
+      <button className="btn btn-primary" type="submit" style={{ width: '150px' }}>
+        Submit
+      </button>
+    </form>
   );
 };
 

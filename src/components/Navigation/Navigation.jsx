@@ -1,10 +1,11 @@
-import { useAuthContext } from '../../contenxt/auth-context';
+import { useContext } from 'react';
+
+import { AuthContext } from '../../context/auth-context';
+
+import { LoginForm } from './LoginForm';
 
 export const Navigation = () => {
-  const [isAuth, setIsAuth] = useAuthContext();
-
-  const handleLogin = () => setIsAuth(true);
-  const handleLogout = () => setIsAuth(false);
+  const { isAuth, logout } = useContext(AuthContext);
 
   return isAuth ? (
     <>
@@ -18,13 +19,12 @@ export const Navigation = () => {
           </li>
         </ul>
       </nav>
-      <button type="button" onClick={handleLogout}>
-        Click to logout
+
+      <button onClick={logout} type="button" className="btn btn-primary mt-4">
+        Logout
       </button>
     </>
   ) : (
-    <button type="button" onClick={handleLogin}>
-      Click to login
-    </button>
+    <LoginForm />
   );
 };

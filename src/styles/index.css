@@ -16,3 +16,9 @@ a {
 .content {
   height: 100vh;
 }
+
+.card-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
