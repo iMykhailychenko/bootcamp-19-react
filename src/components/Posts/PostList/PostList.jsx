@@ -1,9 +1,9 @@
-import { useRef, useEffect, useState, useContext } from 'react';
+import { useRef, useEffect, useReducer, useCallback } from 'react';
 
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
 
-import { AuthContext } from '../../../context/auth-context';
+import { getPostsListService } from '../../../services/posts-service';
 import { PostCard } from '../PostCard/PostCard';
 import { PostCardSkeleton } from '../PostCard/PostCardSkeleton';
 
@@ -14,70 +14,81 @@ const STATUS = {
   Success: 'success',
 };
 
+const initialState = {
+  isLoadMore: false,
+  status: STATUS.Idle,
+  posts: null,
+};
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'post-status':
+      return { ...state, status: payload };
+
+    case 'post-data':
+      return { ...state, posts: payload };
+
+    case 'load-more-posts':
+      return { ...state, posts: { ...payload, data: [...state.posts.data, ...payload.data] } };
+
+    case 'is-loading-more':
+      return { ...state, isLoadMore: payload };
+
+    default:
+      return state;
+  }
+};
+
 export const PostList = ({ query }) => {
   const isFirstRender = useRef(true);
 
-  const [isLoadMore, setIsLoadMore] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [status, setStatus] = useState(STATUS.Idle);
-  const [posts, setPosts] = useState(null);
-
-  const { isAuth } = useContext(AuthContext);
+  const fetchImages = useCallback(
+    params =>
+      getPostsListService(params)
+        .then(data => {
+          dispatch({ type: 'post-data', payload: data });
+          dispatch({ type: 'post-status', payload: STATUS.Success });
+        })
+        .catch(() => {
+          dispatch({ type: 'post-status', payload: STATUS.Error });
+          toast.error('Something went wrong!');
+        }),
+    [],
+  );
 
   useEffect(() => {
-    setStatus(STATUS.Loading);
+    dispatch({ type: 'post-status', payload: STATUS.Loading });
 
-    fetch('http://70.34.201.18:8080/posts?limit=4')
-      .then(res => res.json())
-      .then(data => {
-        setPosts(data);
-        setStatus(STATUS.Success);
-      })
-      .catch(() => {
-        setStatus(STATUS.Error);
-        toast.error('Something went wrong!');
-      });
-  }, []);
+    fetchImages();
+  }, [fetchImages]);
 
   useEffect(() => {
     if (!isFirstRender.current) {
-      setStatus(STATUS.Loading);
-      fetch(`http://70.34.201.18:8080/posts?search=${query}&limit=4`)
-        .then(res => res.json())
-        .then(data => {
-          setPosts(data);
-          setStatus(STATUS.Success);
-        })
-        .catch(() => {
-          setStatus(STATUS.Error);
-          toast.error('Something went wrong!');
-        });
+      dispatch({ type: 'post-status', payload: STATUS.Loading });
+
+      fetchImages({ search: query });
     } else {
       isFirstRender.current = false;
     }
-  }, [query]);
+  }, [query, fetchImages]);
 
   const handleLoadMore = () => {
-    setIsLoadMore(true);
+    dispatch({ type: 'is-loading-more', payload: true });
 
-    fetch(`http://70.34.201.18:8080/posts?page=${posts.page + 1}&limit=4`)
-      .then(res => res.json())
+    getPostsListService({ page: state.posts.page + 1 })
       .then(response => {
-        setPosts(prevState => ({ ...response, data: [...prevState.data, ...response.data] }));
+        dispatch({ type: 'load-more-posts', payload: response });
       })
       .catch(() => toast.error('Something went wrong!'))
-      .finally(() => setIsLoadMore(false));
+      .finally(() => dispatch({ type: 'is-loading-more', payload: false }));
   };
 
-  if (!isAuth) {
-    return 'Not authenticated';
-  }
-
-  if (status === STATUS.Error) {
+  if (state.status === STATUS.Error) {
     return <></>;
   }
 
-  if (status === STATUS.Loading || status === STATUS.Idle) {
+  if (state.status === STATUS.Loading || state.status === STATUS.Idle) {
     return (
       <div className="container-fluid g-0">
         <div className="row ">
@@ -89,7 +100,7 @@ export const PostList = ({ query }) => {
     );
   }
 
-  if (!posts.data.length) {
+  if (!state.posts?.data.length) {
     return <p>No data</p>;
   }
 
@@ -97,19 +108,19 @@ export const PostList = ({ query }) => {
     <>
       <div className="container-fluid g-0 mt-5">
         <div className="row ">
-          {posts.data.map(post => (
+          {state.posts?.data.map(post => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>
       </div>
 
-      {posts.total_pages > posts.page && (
+      {state.posts.total_pages > state.posts.page && (
         <button
           type="button"
           onClick={handleLoadMore}
-          className={classNames('btn btn-primary my-5', isLoadMore ? 'disabled' : '')}
+          className={classNames('btn btn-primary my-5', state.isLoadMore ? 'disabled' : '')}
         >
-          {isLoadMore && <span className="spinner-grow spinner-grow-sm mr-2" />}
+          {state.isLoadMore && <span className="spinner-grow spinner-grow-sm mr-2" />}
           Load more
         </button>
       )}

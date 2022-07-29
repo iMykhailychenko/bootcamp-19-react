@@ -8,7 +8,7 @@ import { Content } from './components/Layout/Content/Content';
 import { Main } from './components/Layout/Main/Main';
 import { Sidebar } from './components/Layout/Sidebar/Sidebar';
 import { Navigation } from './components/Navigation/Navigation';
-import { PostList } from './components/Posts/PostList/PostList';
+import { PostsAuth } from './components/Posts/PostsAuth/PostsAuth';
 import { PostsSearch } from './components/Posts/PostsSearch/PostsSearch';
 import { AuthContextProvider } from './context/auth-context';
 
@@ -32,7 +32,7 @@ export class App extends Component {
 
             <Content>
               <PostsSearch onSubmit={this.handleSubmit} />
-              <PostList query={this.state.query} />
+              <PostsAuth query={this.state.query} />
             </Content>
           </AuthContextProvider>
         </Main>

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { memo, useState, useCallback } from 'react';
 
-const Button = ({ label, onCount }) => {
+// prevOnCount === onCount // true
+const Button = memo(({ label, onCount }) => {
   console.log('Render in Button');
 
   return (
@@ -8,7 +9,7 @@ const Button = ({ label, onCount }) => {
       {label}
     </button>
   );
-};
+});
 
 Button.displayName = 'Button';
 
@@ -27,9 +28,9 @@ Button.displayName = 'Button';
 export const Counter = () => {
   const [count, setCount] = useState(0);
 
-  const handleCount = () => {
+  const handleCount = useCallback(() => {
     setCount(prev => prev + 1);
-  };
+  }, []);
 
   console.log('Render in Counter');
 
