@@ -14,11 +14,17 @@ a {
 }
 
 .content {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .card-title {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  left: 0;
 }

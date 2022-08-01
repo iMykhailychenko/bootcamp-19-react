@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import './styles/index.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,37 +7,35 @@ import { Content } from './components/Layout/Content/Content';
 import { Main } from './components/Layout/Main/Main';
 import { Sidebar } from './components/Layout/Sidebar/Sidebar';
 import { Navigation } from './components/Navigation/Navigation';
-import { PostsAuth } from './components/Posts/PostsAuth/PostsAuth';
-import { PostsSearch } from './components/Posts/PostsSearch/PostsSearch';
 import { AuthContextProvider } from './context/auth-context';
+import { HomePage } from './pages/HomePage/HomePage';
+// import { NotFound } from './pages/NotFound/NotFound';
+// import { NewPostPage } from './pages/NewPostPage/NewPostPage';
+// import { PostListPage } from './pages/PostListPage/PostListPage';
+// import { PostCommentsPage } from './pages/PostCommentsPage/PostCommentsPage';
+// import { SinglePostPage } from './pages/SinglePostPage/SinglePostPage';
 
-export class App extends Component {
-  state = {
-    query: '',
-  };
+export const App = () => {
+  return (
+    <>
+      <Main>
+        <AuthContextProvider>
+          <Sidebar>
+            <Navigation />
+          </Sidebar>
 
-  handleSubmit = query => {
-    this.setState({ query });
-  };
+          <Content>
+            <HomePage />
+            {/* <NotFound /> */}
+            {/* <NewPostPage /> */}
+            {/* <PostListPage /> */}
+            {/* <SinglePostPage /> */}
+            {/* <PostCommentsPage /> */}
+          </Content>
+        </AuthContextProvider>
+      </Main>
 
-  render() {
-    return (
-      <>
-        <Main>
-          <AuthContextProvider>
-            <Sidebar>
-              <Navigation />
-            </Sidebar>
-
-            <Content>
-              <PostsSearch onSubmit={this.handleSubmit} />
-              <PostsAuth query={this.state.query} />
-            </Content>
-          </AuthContextProvider>
-        </Main>
-
-        <ToastContainer />
-      </>
-    );
-  }
-}
+      <ToastContainer />
+    </>
+  );
+};

@@ -6,10 +6,23 @@ const defaultParams = {
 
 const postsApiClient = axios.create({
   baseURL: 'http://70.34.201.18:8080/posts',
-  params: defaultParams,
 });
 
-export const getPostsListService = async params => {
-  const { data } = await postsApiClient.get('', { params });
+export const getPostsListService = async (params = {}) => {
+  const { data } = await postsApiClient.get('', { params: { ...defaultParams, ...params } });
   return data;
+};
+
+export const createNewPostService = async body => {
+  const { data } = await postsApiClient.post('', body);
+  return data;
+};
+
+export const getSinglePostService = async (id, params) => {
+  const { data } = await postsApiClient.get(`/${id}`, { params });
+  return data;
+};
+
+export const deletePostService = id => {
+  return postsApiClient.delete(`/${id}`);
 };
