@@ -1,41 +1,31 @@
 import './styles/index.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { ToastContainer } from 'react-toastify';
+import { Route, Routes } from 'react-router-dom';
 
-import { Content } from './components/Layout/Content/Content';
-import { Main } from './components/Layout/Main/Main';
-import { Sidebar } from './components/Layout/Sidebar/Sidebar';
-import { Navigation } from './components/Navigation/Navigation';
-import { AuthContextProvider } from './context/auth-context';
+import { Layout } from './components/Layout/Layout';
 import { HomePage } from './pages/HomePage/HomePage';
-// import { NotFound } from './pages/NotFound/NotFound';
-// import { NewPostPage } from './pages/NewPostPage/NewPostPage';
-// import { PostListPage } from './pages/PostListPage/PostListPage';
-// import { PostCommentsPage } from './pages/PostCommentsPage/PostCommentsPage';
-// import { SinglePostPage } from './pages/SinglePostPage/SinglePostPage';
+import { NewPostPage } from './pages/NewPostPage/NewPostPage';
+import { NotFound } from './pages/NotFound/NotFound';
+import { PostCommentsPage } from './pages/PostCommentsPage/PostCommentsPage';
+import { PostListPage } from './pages/PostListPage/PostListPage';
+import { SinglePostPage } from './pages/SinglePostPage/SinglePostPage';
 
 export const App = () => {
   return (
-    <>
-      <Main>
-        <AuthContextProvider>
-          <Sidebar>
-            <Navigation />
-          </Sidebar>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
 
-          <Content>
-            <HomePage />
-            {/* <NotFound /> */}
-            {/* <NewPostPage /> */}
-            {/* <PostListPage /> */}
-            {/* <SinglePostPage /> */}
-            {/* <PostCommentsPage /> */}
-          </Content>
-        </AuthContextProvider>
-      </Main>
+        <Route path="/posts" element={<PostListPage />} />
 
-      <ToastContainer />
-    </>
+        <Route path="/posts/:postId" element={<SinglePostPage />}>
+          <Route path="comments" element={<PostCommentsPage />} />
+        </Route>
+
+        <Route path="/new-post" element={<NewPostPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 };

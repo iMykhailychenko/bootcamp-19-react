@@ -1,18 +1,22 @@
 import { useState } from 'react';
 
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { deletePostService } from '../../services/posts-service';
 import { Loader } from '../Loader/Loader';
 
 export const PostActions = () => {
+  const navigate = useNavigate();
+  const { postId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = () => {
     setIsLoading(true);
-    deletePostService(9)
+    deletePostService(postId)
       .then(() => {
         toast.success('You have successfully deleted your post!');
+        navigate('/posts');
       })
       .catch(() => {
         toast.error('Something went wrong!');

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { cutString } from '../../helpers/cut-string';
 
 export const PostCard = ({ post }) => {
@@ -11,9 +13,9 @@ export const PostCard = ({ post }) => {
 
           <p className="card-text">{cutString(post.content, 60)}</p>
 
-          <button type="button" className="btn btn-primary">
+          <Link to={`/posts/${post.id}`} className="btn btn-primary">
             Read post
-          </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import { AuthContext } from '../../context/auth-context';
 
 import { LoginForm } from './LoginForm';
@@ -12,15 +14,21 @@ export const Navigation = () => {
       <nav className="navbar">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link active">Home page</a>
+            <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              Home page
+            </NavLink>
           </li>
 
           <li className="nav-item">
-            <a className="nav-link">Post list</a>
+            <NavLink to="/posts" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              Post list
+            </NavLink>
           </li>
 
           <li className="nav-item">
-            <a className="nav-link">Create post</a>
+            <NavLink to="/new-post" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              Create post
+            </NavLink>
           </li>
         </ul>
       </nav>

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
 import classNames from 'classnames';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { createNewCommentService } from '../../services/comments-service';
 
 export const CommentForm = ({ setComments }) => {
+  const { postId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState('');
 
@@ -21,7 +23,7 @@ export const CommentForm = ({ setComments }) => {
     }
 
     setIsLoading(true);
-    createNewCommentService(9, { content })
+    createNewCommentService(postId, { content })
       .then(data => {
         toast.success('You have successfully created a new comment!');
         setComments(prev => ({ ...prev, data: [data, ...prev.data] }));

@@ -1,21 +1,23 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { formatDistance } from 'date-fns';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { deleteCommentService, getCommentsListService } from '../../services/comments-service';
 
 export const CommentList = ({ comments, setComments }) => {
+  const { postId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchComments = useCallback(
     () =>
-      getCommentsListService(9)
+      getCommentsListService(postId)
         .then(setComments)
         .catch(() => {
           toast.error('Something went wrong!');
         }),
-    [setComments],
+    [postId, setComments],
   );
 
   useEffect(() => {
