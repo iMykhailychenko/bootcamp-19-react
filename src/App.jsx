@@ -1,29 +1,64 @@
 import './styles/index.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { lazy, Suspense } from 'react';
+
 import { Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components/Layout/Layout';
-import { HomePage } from './pages/HomePage/HomePage';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import { NewPostPage } from './pages/NewPostPage/NewPostPage';
 import { NotFound } from './pages/NotFound/NotFound';
 import { PostCommentsPage } from './pages/PostCommentsPage/PostCommentsPage';
-import { PostListPage } from './pages/PostListPage/PostListPage';
 import { SinglePostPage } from './pages/SinglePostPage/SinglePostPage';
+
+const HomePageLazy = lazy(() => import('./pages/HomePage'));
+const PostListPageLazy = lazy(() => import('./pages/PostListPage'));
 
 export const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
+        <Route
+          index
+          element={
+            <Suspense fallback={null}>
+              <HomePageLazy />
+            </Suspense>
+          }
+        />
 
-        <Route path="/posts" element={<PostListPage />} />
+        <Route
+          path="/posts"
+          element={
+            <PrivateRoute>
+              <Suspense fallback={<p>Loading ...</p>}>
+                <PostListPageLazy />
+              </Suspense>
+            </PrivateRoute>
+          }
+        />
 
-        <Route path="/posts/:postId" element={<SinglePostPage />}>
+        <Route
+          path="/posts/:postId"
+          element={
+            <PrivateRoute>
+              <SinglePostPage />
+            </PrivateRoute>
+          }
+        >
           <Route path="comments" element={<PostCommentsPage />} />
         </Route>
 
-        <Route path="/new-post" element={<NewPostPage />} />
+        <Route
+          path="/new-post"
+          element={
+            <PrivateRoute>
+              <NewPostPage />
+            </PrivateRoute>
+          }
+        />
+
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

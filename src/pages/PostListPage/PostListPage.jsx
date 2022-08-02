@@ -1,45 +1,20 @@
-import { useEffect, useReducer, useCallback } from 'react';
+import { useEffect, useReducer, useCallback, useMemo } from 'react';
 
 import classNames from 'classnames';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { PostCard } from '../../components/PostCard/PostCard';
 import { PostCardSkeleton } from '../../components/PostCard/PostCardSkeleton';
 import { getPostsListService } from '../../services/posts-service';
 
-const STATUS = {
-  Idle: 'idle',
-  Loading: 'loading',
-  Error: 'error',
-  Success: 'success',
-};
-
-const initialState = {
-  isLoadMore: false,
-  status: STATUS.Idle,
-  posts: null,
-};
-
-const reducer = (state, { type, payload }) => {
-  switch (type) {
-    case 'post-status':
-      return { ...state, status: payload };
-
-    case 'post-data':
-      return { ...state, posts: payload };
-
-    case 'load-more-posts':
-      return { ...state, posts: { ...payload, data: [...state.posts.data, ...payload.data] } };
-
-    case 'is-loading-more':
-      return { ...state, isLoadMore: payload };
-
-    default:
-      return state;
-  }
-};
+import { initialState, STATUS } from './constants';
+import { reducer } from './reducer';
 
 export const PostListPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParamsObj = useMemo(() => Object.fromEntries([...searchParams]), [searchParams]);
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchImages = useCallback(
@@ -57,20 +32,11 @@ export const PostListPage = () => {
   );
 
   useEffect(() => {
-    dispatch({ type: 'post-status', payload: STATUS.Loading });
+    fetchImages({ page: searchParamsObj.page });
+  }, [fetchImages, searchParamsObj.page]);
 
-    fetchImages();
-  }, [fetchImages]);
-
-  const handleLoadMore = () => {
-    dispatch({ type: 'is-loading-more', payload: true });
-
-    getPostsListService({ page: state.posts.page + 1 })
-      .then(response => {
-        dispatch({ type: 'load-more-posts', payload: response });
-      })
-      .catch(() => toast.error('Something went wrong!'))
-      .finally(() => dispatch({ type: 'is-loading-more', payload: false }));
+  const handlePageClick = page => {
+    setSearchParams({ ...searchParamsObj, page });
   };
 
   if (state.status === STATUS.Error) {
@@ -103,16 +69,20 @@ export const PostListPage = () => {
         </div>
       </div>
 
-      {state.posts.total_pages > state.posts.page && (
-        <button
-          type="button"
-          onClick={handleLoadMore}
-          className={classNames('btn btn-primary my-5', state.isLoadMore ? 'disabled' : '')}
-        >
-          {state.isLoadMore && <span className="spinner-grow spinner-grow-sm mr-2" />}
-          Load more
-        </button>
-      )}
+      <div className="btn-group my-5">
+        {[...Array(state.posts.total_pages)].map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            onClick={() => handlePageClick(index + 1)}
+            disabled={Number(searchParamsObj.page) === index + 1}
+            className={classNames('btn btn-primary ', state.isLoadMore ? 'disabled' : '')}
+          >
+            {state.isLoadMore && <span className="spinner-grow spinner-grow-sm mr-2" />}
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </>
   );
 };

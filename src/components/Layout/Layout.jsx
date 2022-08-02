@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { AuthContextProvider } from '../../context/auth-context';
+import { BackButton } from '../BackButton/BackButton';
 import { Navigation } from '../Navigation/Navigation';
 
 import { Content } from './Content/Content';
@@ -18,6 +19,7 @@ export const Layout = () => {
           </Sidebar>
 
           <Content>
+            <BackButton />
             <Outlet />
           </Content>
         </AuthContextProvider>
