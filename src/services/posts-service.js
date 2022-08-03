@@ -5,7 +5,7 @@ const defaultParams = {
 };
 
 const postsApiClient = axios.create({
-  baseURL: 'http://70.34.201.18:8080/posts',
+  baseURL: process.env.NODE_ENV === 'production' ? '/api/posts' : 'http://70.34.201.18:8080/posts',
 });
 
 export const getPostsListService = async (params = {}) => {
