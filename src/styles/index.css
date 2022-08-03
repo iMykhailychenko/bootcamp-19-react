@@ -12,19 +12,3 @@ button,
 a {
   cursor: pointer;
 }
-
-.content {
-  min-height: 100vh;
-}
-
-.card-title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.sidebar {
-  position: sticky;
-  top: 0;
-  left: 0;
-}
