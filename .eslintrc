@@ -51,6 +51,7 @@
     "react/jsx-one-expression-per-line": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "import/extensions": "off",
+    "no-nested-ternary": "off",
     "react/no-danger": "off",
     "import/first": "warn",
     "import/order": [
