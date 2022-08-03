@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { deletePostService } from '../../services/posts-service';
@@ -28,7 +28,10 @@ export const PostActions = () => {
     <>
       {isLoading && <Loader />}
 
-      <div className="btn-group mb-5">
+      {/* <button onClick={() => navigate('/')}>dsds</button> */}
+      {/* <Link to="/">sdds</Link> */}
+
+      <div className="btn-group mb-5 d-block">
         <button type="button" className="btn btn-outline-danger" onClick={handleDelete}>
           Delete post
         </button>

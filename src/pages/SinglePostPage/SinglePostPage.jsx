@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useParams, Outlet, Link } from 'react-router-dom';
+import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Loader } from '../../components/Loader/Loader';
@@ -9,6 +9,7 @@ import { getSinglePostService } from '../../services/posts-service';
 
 export const SinglePostPage = () => {
   const { postId } = useParams();
+  const location = useLocation();
 
   const [post, setPost] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,7 +44,7 @@ export const SinglePostPage = () => {
 
         <div dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br/>') }} />
 
-        <Link to={`/posts/${postId}/comments`} className="btn btn-primary my-4">
+        <Link state={location.state} to={`/posts/${postId}/comments`} className="btn btn-primary my-4">
           Vew post comments
         </Link>
 
