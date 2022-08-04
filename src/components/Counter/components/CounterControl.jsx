@@ -1,15 +1,19 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { decrementAction, incrementAction } from '../../../redux/counter/counter-actions';
 
 export const CounterControl = () => {
-  const [counter, setCounter] = useState(0);
+  const dispatch = useDispatch();
+  const counter = useSelector(state => state.counter.value);
 
   const handleIncrement = () => {
-    setCounter(prev => prev + 1);
+    dispatch(incrementAction());
   };
 
   const handleDecrement = () => {
-    setCounter(prev => prev - 1);
+    dispatch(decrementAction());
   };
+
   return (
     <>
       <div className="p-3 mb-5 bg-secondary text-white text-center w-50 rounded-3" style={{ fontSize: '40px' }}>
