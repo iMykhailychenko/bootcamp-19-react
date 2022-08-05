@@ -52,6 +52,7 @@
     "jsx-a11y/label-has-associated-control": "off",
     "import/extensions": "off",
     "no-nested-ternary": "off",
+    "import/no-extraneous-dependencies": "off",
     "react/no-danger": "off",
     "default-param-last": "off",
     "import/first": "warn",

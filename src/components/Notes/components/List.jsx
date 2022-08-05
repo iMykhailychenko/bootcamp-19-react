@@ -1,8 +1,37 @@
+import { useMemo } from 'react';
+
 import classNames from 'classnames';
 import { formatDistanceToNow } from 'date-fns';
+import { useDispatch, useSelector } from 'react-redux';
 
-export const List = ({ notes, onToggle, onDelete }) => {
-  if (!notes.length) {
+import { deleteNoteAction, toggleNoteAction } from '../../../redux/notes/notes-actions';
+import { noteListSelector, notesFilterSelector } from '../../../redux/notes/notes-selectors';
+
+export const List = () => {
+  const dispatch = useDispatch();
+
+  const notes = useSelector(noteListSelector);
+  const filter = useSelector(notesFilterSelector);
+
+  console.log(notes);
+
+  const filteredNotes = useMemo(
+    () => notes.filter(({ value }) => value.toLowerCase().includes(filter.trim().toLowerCase())),
+    [filter, notes],
+  );
+
+  const onDelete = id => {
+    dispatch(deleteNoteAction(id) /* -> { type: payload: } */);
+  };
+
+  const onToggle = id => {
+    dispatch(toggleNoteAction(id));
+
+    // 1. toggleNoteAction -> {}
+    // 2. dispatch -> ({})
+  };
+
+  if (!filteredNotes.length) {
     return (
       <div className="list-group w-100">
         <div className="list-group-item w-100 p-5">
@@ -14,7 +43,7 @@ export const List = ({ notes, onToggle, onDelete }) => {
 
   return (
     <div className="list-group w-100">
-      {notes.map(note => (
+      {filteredNotes.map(note => (
         <div key={note.id} className="list-group-item w-100 p-4">
           <div className="d-flex w-100 justify-content-between pb-3">
             <h5 className="mb-1">

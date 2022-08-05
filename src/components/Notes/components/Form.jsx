@@ -1,13 +1,20 @@
 import { useState } from 'react';
 
-export const Form = ({ onSubmit }) => {
+import { useDispatch } from 'react-redux';
+
+import { createNoteAction } from '../../../redux/notes/notes-actions';
+
+export const Form = () => {
+  const dispatch = useDispatch();
+
   const [value, setValue] = useState('');
   const handleChange = event => setValue(event.target.value);
   const handleReset = () => setValue('');
 
   const handleSubmit = event => {
     event.preventDefault();
-    onSubmit(value);
+
+    dispatch(createNoteAction(value) /* -> {type: '', payload: {} } */);
     handleReset();
   };
 

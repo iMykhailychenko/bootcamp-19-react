@@ -1,26 +1,31 @@
-import { combineReducers } from 'redux';
+import { combineReducers, createReducer } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
+import { createNoteAction, deleteNoteAction, filterAction, toggleNoteAction } from './notes-actions';
 import { notesInitialState } from './notes-initial-state';
-import { FILTER } from './notes-type';
 
-const notesFilterReducer = (state = notesInitialState.filter, { type, payload }) => {
-  switch (type) {
-    case FILTER:
-      return payload;
-
-    default:
-      return state;
-  }
-};
-
-const notesListReducer = (state = notesInitialState.notesList, { type, payload }) => {
-  switch (type) {
-    default:
-      return state;
-  }
-};
-
-export const notesReducer = combineReducers({
-  filter: notesFilterReducer,
-  notesList: notesListReducer,
+const notesFilterReducer = createReducer(notesInitialState.filter, {
+  [filterAction]: (_, action) => action.payload,
 });
+
+const notesListReducer = createReducer(notesInitialState.notesList, {
+  [createNoteAction]: (state, action) => [action.payload, ...state],
+  [deleteNoteAction]: (state, action /* action.payload -> id */) => state.filter(note => note.id !== action.payload),
+  [toggleNoteAction]: (state, action /* action.payload -> id */) =>
+    state.map(note => (note.id === action.payload ? { ...note, isDone: !note.isDone } : note)),
+});
+
+const persistConfig = {
+  key: 'todos',
+  storage,
+  whitelist: ['notesList'],
+};
+
+export const notesReducer = persistReducer(
+  persistConfig,
+  combineReducers({
+    filter: notesFilterReducer,
+    notesList: notesListReducer,
+  }),
+);
