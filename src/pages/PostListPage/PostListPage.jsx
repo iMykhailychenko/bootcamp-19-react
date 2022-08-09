@@ -1,6 +1,5 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
-import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
@@ -11,17 +10,17 @@ import { getPostsThunk } from '../../redux/posts/posts-thunk';
 
 export const PostListPage = () => {
   const dispatch = useDispatch();
-  const { status, posts, isLoadMore } = useSelector(state => state.posts);
+  const { status, posts } = useSelector(state => state.posts);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const searchParamsObj = useMemo(() => Object.fromEntries([...searchParams]), [searchParams]);
+  const page = searchParams.get('page');
 
   useEffect(() => {
-    dispatch(getPostsThunk({ page: searchParamsObj.page }));
-  }, [dispatch, searchParamsObj.page]);
+    dispatch(getPostsThunk({ page }));
+  }, [dispatch, page]);
 
-  const handlePageClick = page => {
-    setSearchParams({ ...searchParamsObj, page });
+  const handlePageClick = newPage => {
+    setSearchParams({ page: newPage });
   };
 
   if (status === STATUS.Error) {
@@ -32,7 +31,7 @@ export const PostListPage = () => {
     return (
       <div className="container-fluid g-0">
         <div className="row ">
-          {[...Array(4)].map((_, index) => (
+          {[...Array(6)].map((_, index) => (
             <PostCardSkeleton key={index} />
           ))}
         </div>
@@ -54,16 +53,15 @@ export const PostListPage = () => {
         </div>
       </div>
 
-      <div className="btn-group my-5">
+      <div className="btn-group my-5 mx-auto btn-group-lg">
         {[...Array(posts.total_pages)].map((_, index) => (
           <button
             key={index}
             type="button"
             onClick={() => handlePageClick(index + 1)}
-            disabled={Number(searchParamsObj.page) === index + 1}
-            className={classNames('btn btn-primary ', isLoadMore ? 'disabled' : '')}
+            disabled={Number(page) === index + 1}
+            className="btn btn-primary"
           >
-            {isLoadMore && <span className="spinner-grow spinner-grow-sm mr-2" />}
             {index + 1}
           </button>
         ))}

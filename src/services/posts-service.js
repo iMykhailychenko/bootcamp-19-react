@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const defaultParams = {
-  limit: 4,
+  limit: 6,
 };
 
 const postsApiClient = axios.create({

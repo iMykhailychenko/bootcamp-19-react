@@ -2,9 +2,9 @@ import { Skeleton } from '../Skeleton/Skeleton';
 
 export const PostCardSkeleton = () => {
   return (
-    <div className="col-3">
+    <div className="col-4">
       <div className="card">
-        <Skeleton style={{ height: '200px' }} />
+        <Skeleton style={{ height: '300px' }} />
 
         <div className="card-body">
           <h5 className="card-title mb-4">
