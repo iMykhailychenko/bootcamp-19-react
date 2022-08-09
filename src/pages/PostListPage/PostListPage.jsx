@@ -45,7 +45,7 @@ export const PostListPage = () => {
 
   return (
     <>
-      <div className="container-fluid g-0 mt-5">
+      <div className="container-fluid g-0">
         <div className="row ">
           {posts?.data.map(post => (
             <PostCard key={post.id} post={post} />
