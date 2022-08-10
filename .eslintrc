@@ -55,6 +55,7 @@
     "react/no-danger": "off",
     "consistent-return": "off",
     "no-return-await": "off",
+    "no-confusing-arrow": "off",
     "import/first": "warn",
     "import/order": [
       "warn",

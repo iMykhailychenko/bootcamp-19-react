@@ -14,6 +14,7 @@ import { SinglePostPage } from './pages/SinglePostPage/SinglePostPage';
 
 const HomePageLazy = lazy(() => import('./pages/HomePage'));
 const PostListPageLazy = lazy(() => import('./pages/PostListPage'));
+const NotesPageLazy = lazy(() => import('./pages/NotesPage'));
 
 export const App = () => {
   return (
@@ -25,6 +26,17 @@ export const App = () => {
             <Suspense fallback={null}>
               <HomePageLazy />
             </Suspense>
+          }
+        />
+
+        <Route
+          path="/notes"
+          element={
+            <PrivateRoute>
+              <Suspense fallback={<p>Loading ...</p>}>
+                <NotesPageLazy />
+              </Suspense>
+            </PrivateRoute>
           }
         />
 

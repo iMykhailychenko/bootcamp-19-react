@@ -28,6 +28,16 @@ export const Navigation = () => {
 
           <li className="nav-item">
             <NavLink
+              to="/notes"
+              state={{ pathname, title }}
+              className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+            >
+              Notes page
+            </NavLink>
+          </li>
+
+          <li className="nav-item">
+            <NavLink
               to="/posts"
               state={{ pathname, title }}
               className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}

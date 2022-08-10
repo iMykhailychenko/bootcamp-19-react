@@ -1,11 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { initialState } from './initial-state';
 import { rootReducer } from './reducer';
-import { singlePostInitialState } from './single-post/single-post-initial-state';
 
 export const store = configureStore({
+  initialState,
   reducer: rootReducer,
-  initialState: singlePostInitialState,
   devTools: process.env.NODE_ENV === 'development' /* true */,
-  middleware: getDefaultMiddleware => getDefaultMiddleware(),
 });

@@ -9,7 +9,7 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState: postsInitialState,
   extraReducers: {
-    [getPostsThunk.pending /* -> 'posts/getPosts/pending' */]: state => {
+    [getPostsThunk.pending]: state => {
       state.status = STATUS.Loading;
     },
     [getPostsThunk.fulfilled]: (state, actions) => {
@@ -21,11 +21,5 @@ const postsSlice = createSlice({
     },
   },
 });
-
-// {
-//   'posts/getPosts/pending': () => {}
-//   'posts/getPosts/fulfilled': () => {}
-//   'posts/getPosts/rejected': () => {}
-// }
 
 export const postsReducer = postsSlice.reducer;
