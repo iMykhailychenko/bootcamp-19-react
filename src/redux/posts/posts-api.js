@@ -4,7 +4,7 @@ export const postsApi = createApi({
   reducerPath: 'posts',
   tagTypes: ['Posts'],
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NODE_ENV === 'production' ? '/api/posts' : 'http://70.34.201.18:8080/posts',
+    baseUrl: process.env.NODE_ENV === 'production' ? '/api' : 'http://70.34.201.18:8080',
   }),
   endpoints: builder => ({
     getPosts: builder.query({
