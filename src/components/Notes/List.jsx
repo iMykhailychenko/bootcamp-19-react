@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { formatDistanceToNow } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { filteredNotesSelector, filterSelector, notesListSelector } from '../../redux/notes/notes-selectors';
+import { filteredNotesSelector } from '../../redux/notes/notes-selectors';
 import { deleteNoteAction, toggleNoteAction } from '../../redux/notes/notes-slice';
 
 // const selector = state => {
