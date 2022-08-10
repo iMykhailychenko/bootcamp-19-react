@@ -1,33 +1,31 @@
 import { useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
 import { PostCard } from '../../components/PostCard/PostCard';
 import { PostCardSkeleton } from '../../components/PostCard/PostCardSkeleton';
-import { STATUS } from '../../constants/status';
-import { getPostsThunk } from '../../redux/posts/posts-thunk';
+import { useGetPostsQuery, useDeletePostMutation } from '../../redux/posts/posts-api';
 
 export const PostListPage = () => {
-  const dispatch = useDispatch();
-  const { status, posts } = useSelector(state => state.posts);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page');
 
+  const { refetch, ...posts } = useGetPostsQuery(page);
+  const [onDeletePost] = useDeletePostMutation();
+
   useEffect(() => {
-    dispatch(getPostsThunk({ page }));
-  }, [dispatch, page]);
+    refetch(page);
+  }, [refetch, page]);
 
   const handlePageClick = newPage => {
     setSearchParams({ page: newPage });
   };
 
-  if (status === STATUS.Error) {
+  if (posts.isError) {
     return <></>;
   }
 
-  if (status === STATUS.Loading || status === STATUS.Idle) {
+  if (posts.isLoading) {
     return (
       <div className="container-fluid g-0">
         <div className="row ">
@@ -39,7 +37,7 @@ export const PostListPage = () => {
     );
   }
 
-  if (!posts?.data.length) {
+  if (!posts.data?.data.length) {
     return <p>No data</p>;
   }
 
@@ -47,14 +45,14 @@ export const PostListPage = () => {
     <>
       <div className="container-fluid g-0">
         <div className="row ">
-          {posts?.data.map(post => (
-            <PostCard key={post.id} post={post} />
+          {posts.data?.data.map(post => (
+            <PostCard key={post.id} post={post} onDelete={onDeletePost} />
           ))}
         </div>
       </div>
 
       <div className="btn-group my-5 mx-auto btn-group-lg">
-        {[...Array(posts.total_pages)].map((_, index) => (
+        {[...Array(posts.data.total_pages)].map((_, index) => (
           <button
             key={index}
             type="button"

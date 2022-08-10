@@ -1,21 +1,30 @@
-import { useMemo } from 'react';
-
 import classNames from 'classnames';
 import { formatDistanceToNow } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { filteredNotesSelector, filterSelector, notesListSelector } from '../../redux/notes/notes-selectors';
 import { deleteNoteAction, toggleNoteAction } from '../../redux/notes/notes-slice';
+
+// const selector = state => {
+//   const { notesList, filter } = state.notes;
+//
+//   return { notesList, filter };
+// };
+
+// store -> state -> { notes: [] ...rest }
 
 export const List = () => {
   const dispatch = useDispatch();
+  // const notesData = useSelector(nodesDataSelector);
+  // const notesData = useSelector(selector, shallowEqual);
+  // {} === {} shallowEqual -> true
 
-  const notesList = useSelector(state => state.notes.notesList);
-  const filter = useSelector(state => state.notes.filter);
+  // useState
+  // const {notesList, filter} = useSelector(state => state.notes);
+  // const notes = useSelector(notesListSelector);
+  // const filter = useSelector(filterSelector);
 
-  const filteredNotes = useMemo(
-    () => notesList.filter(({ value }) => value.toLowerCase().includes(filter.trim().toLowerCase())),
-    [filter, notesList],
-  );
+  const notesList = useSelector(filteredNotesSelector);
 
   const onDelete = id => {
     dispatch(deleteNoteAction(id));
@@ -25,7 +34,7 @@ export const List = () => {
     dispatch(toggleNoteAction(id));
   };
 
-  if (!filteredNotes.length) {
+  if (!notesList.length) {
     return (
       <div className="list-group w-100">
         <div className="list-group-item w-100 p-5">
@@ -37,7 +46,7 @@ export const List = () => {
 
   return (
     <div className="list-group w-100">
-      {filteredNotes.map(note => (
+      {notesList.map(note => (
         <div key={note.id} className="list-group-item w-100 p-4">
           <div className="d-flex w-100 justify-content-between pb-3">
             <h5 className="mb-1">

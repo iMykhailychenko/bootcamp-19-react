@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { cutString } from '../../helpers/cut-string';
 
-export const PostCard = ({ post }) => {
+export const PostCard = ({ post, onDelete }) => {
   const { pathname } = useLocation();
   return (
     <div className="col-12 col-xl-6 col-xxl-4 mb-4">
@@ -21,7 +21,7 @@ export const PostCard = ({ post }) => {
           <p className="card-text">{cutString(post.content, 60)}</p>
 
           <div className="d-flex">
-            <button type="button" className="btn btn-danger">
+            <button type="button" className="btn btn-danger" onClick={() => onDelete(post.id)}>
               Delete post
             </button>
 
