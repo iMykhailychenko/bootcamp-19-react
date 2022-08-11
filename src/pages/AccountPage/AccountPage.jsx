@@ -1,6 +1,6 @@
 export const AccountPage = () => {
   return (
-    <form action="#" className="mt-5 mx-auto p-0" onSubmit={console.log}>
+    <form action="#" className="mt-5 mx-auto p-0" onSubmit={() => undefined}>
       <h1 className="h3 mb-3 fw-normal">Welcome!</h1>
 
       <div className="form-floating my-4">
