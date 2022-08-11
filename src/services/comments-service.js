@@ -1,25 +1,21 @@
-import axios from 'axios';
+import { http } from '../http/http';
 
 const defaultParams = {
-  limit: 4,
+  limit: 8,
 };
 
-const commentsApiClient = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? '/api' : 'http://70.34.201.18:8080',
-});
-
 export const createNewCommentService = async (postId, body) => {
-  const { data } = await commentsApiClient.post(`/posts/${postId}/comments`, body);
+  const { data } = await http.post(`/posts/${postId}/comments`, body);
   return data;
 };
 
 export const getCommentsListService = async (postId, params = {}) => {
-  const { data } = await commentsApiClient.get(`/posts/${postId}/comments`, {
+  const { data } = await http.get(`/posts/${postId}/comments`, {
     params: { ...defaultParams, ...params },
   });
   return data;
 };
 
 export const deleteCommentService = async commentId => {
-  return commentsApiClient.delete(`/comments/${commentId}`);
+  return http.delete(`/comments/${commentId}`);
 };

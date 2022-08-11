@@ -45,7 +45,7 @@ export const PostListPage = () => {
 
   return (
     <>
-      <div className="container-fluid g-0">
+      <div className="container-fluid g-0 pb-5 mb-5">
         <div className="row ">
           {posts?.data.map(post => (
             <PostCard key={post.id} post={post} />
@@ -53,14 +53,13 @@ export const PostListPage = () => {
         </div>
       </div>
 
-      <div className="btn-group my-5 mx-auto btn-group-lg">
+      <div className="btn-group my-5 mx-auto btn-group-lg pagination">
         {[...Array(posts.total_pages)].map((_, index) => (
           <button
             key={index}
             type="button"
             onClick={() => handlePageClick(index + 1)}
-            disabled={Number(page) === index + 1}
-            className="btn btn-primary"
+            className={Number(page) === index + 1 ? 'btn btn-secondary' : 'btn btn-primary'}
           >
             {index + 1}
           </button>

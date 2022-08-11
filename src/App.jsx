@@ -1,77 +1,116 @@
 import './styles/index.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components/Layout/Layout';
-import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
-import { NewPostPage } from './pages/NewPostPage/NewPostPage';
-import { NotFound } from './pages/NotFound/NotFound';
-import { PostCommentsPage } from './pages/PostCommentsPage/PostCommentsPage';
-import { SinglePostPage } from './pages/SinglePostPage/SinglePostPage';
+import { getAccessTokenSelector } from './redux/auth/auth-selectors';
+import { getProfileThunk } from './redux/profile/profile-thunk';
 
-const HomePageLazy = lazy(() => import('./pages/HomePage'));
-const PostListPageLazy = lazy(() => import('./pages/PostListPage'));
-const NotesPageLazy = lazy(() => import('./pages/NotesPage'));
+const LoginPage = lazy(() => import('./pages/Auth/LoginPage'));
+const JoinPage = lazy(() => import('./pages/Auth/JoinPage'));
+const AccountPage = lazy(() => import('./pages/AccountPage'));
+const NewPostPage = lazy(() => import('./pages/NewPostPage'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const PostCommentsPage = lazy(() => import('./pages/PostCommentsPage'));
+const SinglePostPage = lazy(() => import('./pages/SinglePostPage'));
+const HomePage = lazy(() => import('./pages/HomePage'));
+const PostListPage = lazy(() => import('./pages/PostListPage'));
 
 export const App = () => {
+  const dispatch = useDispatch();
+  const accountToken = useSelector(getAccessTokenSelector);
+
+  useEffect(() => {
+    dispatch(getProfileThunk());
+  }, [dispatch, accountToken]);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route
           index
           element={
-            <Suspense fallback={null}>
-              <HomePageLazy />
+            <Suspense fallback={<p>Loading ...</p>}>
+              <HomePage />
             </Suspense>
           }
         />
 
         <Route
-          path="/notes"
+          path="/login"
           element={
-            <PrivateRoute>
-              <Suspense fallback={<p>Loading ...</p>}>
-                <NotesPageLazy />
-              </Suspense>
-            </PrivateRoute>
+            <Suspense fallback={<p>Loading ...</p>}>
+              <LoginPage />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="/join"
+          element={
+            <Suspense fallback={<p>Loading ...</p>}>
+              <JoinPage />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="/account"
+          element={
+            <Suspense fallback={<p>Loading ...</p>}>
+              <AccountPage />
+            </Suspense>
           }
         />
 
         <Route
           path="/posts"
           element={
-            <PrivateRoute>
-              <Suspense fallback={<p>Loading ...</p>}>
-                <PostListPageLazy />
-              </Suspense>
-            </PrivateRoute>
+            <Suspense fallback={<p>Loading ...</p>}>
+              <PostListPage />
+            </Suspense>
           }
         />
 
         <Route
           path="/posts/:postId"
           element={
-            <PrivateRoute>
+            <Suspense fallback={<p>Loading ...</p>}>
               <SinglePostPage />
-            </PrivateRoute>
+            </Suspense>
           }
         >
-          <Route path="comments" element={<PostCommentsPage />} />
+          <Route
+            path="comments"
+            element={
+              <Suspense fallback={<p>Loading ...</p>}>
+                <PostCommentsPage />
+              </Suspense>
+            }
+          />
         </Route>
 
         <Route
           path="/new-post"
           element={
-            <PrivateRoute>
+            <Suspense fallback={<p>Loading ...</p>}>
               <NewPostPage />
-            </PrivateRoute>
+            </Suspense>
           }
         />
 
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<p>Loading ...</p>}>
+              <NotFound />
+            </Suspense>
+          }
+        />
       </Route>
     </Routes>
   );

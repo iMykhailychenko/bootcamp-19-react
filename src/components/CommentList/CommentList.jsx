@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { formatDistance } from 'date-fns';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { deleteCommentService, getCommentsListService } from '../../services/comments-service';
@@ -52,20 +52,42 @@ export const CommentList = ({ comments, setComments }) => {
     <>
       <ul className="list-group">
         {comments.data.map(comment => (
-          <li key={comment.id} className="list-group-item list-group-item-action py-4">
-            <div className="d-flex w-100 justify-content-between">
-              <small>{formatDistance(new Date(comment.created_at), new Date(), { addSuffix: true })}</small>
-            </div>
+          <li key={comment.id} className="list-group-item list-group-item-action d-flex gap-3 py-3">
+            <img
+              width="32"
+              height="32"
+              alt={comment.first_name}
+              src={comment.avatar || '/user.png'}
+              className="rounded-circle flex-shrink-0"
+            />
+            <div className="d-flex gap-2 w-100 justify-content-between">
+              <div>
+                <h6 className="mb-0">
+                  <Link to={`/account/${comment.user_id}`}>
+                    {comment.first_name} {comment.last_name}
+                  </Link>
+                </h6>
+                <div
+                  className="mb-4 mt-3"
+                  dangerouslySetInnerHTML={{ __html: comment.content.replace(/\n/g, '<br/>') }}
+                />
 
-            <div className="mb-4 mt-3" dangerouslySetInnerHTML={{ __html: comment.content.replace(/\n/g, '<br/>') }} />
-
-            <div className="btn-group">
-              <button type="button" className="btn btn-outline-danger" onClick={() => handleDeleteComment(comment.id)}>
-                Delete comment
-              </button>
-              <button type="button" className="btn btn-outline-primary">
-                Edit comment
-              </button>
+                <div className="d-flex" style={{ marginLeft: '-13px' }}>
+                  <button
+                    type="button"
+                    className="btn btn-link text-secondary btn-sm"
+                    onClick={() => handleDeleteComment(comment.id)}
+                  >
+                    Delete comment
+                  </button>
+                  <button type="button" className="btn btn-link text-secondary btn-sm">
+                    Edit comment
+                  </button>
+                </div>
+              </div>
+              <small className="opacity-50 text-nowrap">
+                {formatDistance(new Date(comment.created_at), new Date(), { addSuffix: true })}
+              </small>
             </div>
           </li>
         ))}

@@ -1,28 +1,24 @@
-import axios from 'axios';
+import { http } from '../http/http';
 
 const defaultParams = {
-  limit: 6,
+  limit: 9,
 };
 
-const postsApiClient = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? '/api/posts' : 'http://70.34.201.18:8080/posts',
-});
-
 export const getPostsListService = async (params = {}) => {
-  const { data } = await postsApiClient.get('', { params: { ...defaultParams, ...params } });
+  const { data } = await http.get('/posts', { params: { ...defaultParams, ...params } });
   return data;
 };
 
 export const createNewPostService = async body => {
-  const { data } = await postsApiClient.post('', body);
+  const { data } = await http.post('/posts', body);
   return data;
 };
 
 export const getSinglePostService = async (id, params) => {
-  const { data } = await postsApiClient.get(`/${id}`, { params });
+  const { data } = await http.get(`/posts/${id}`, { params });
   return data;
 };
 
 export const deletePostService = id => {
-  return postsApiClient.delete(`/${id}`);
+  return http.delete(`/posts/${id}`);
 };
