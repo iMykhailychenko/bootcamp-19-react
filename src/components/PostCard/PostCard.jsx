@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 
 import { cutString } from '../../helpers/cut-string';
 import { deletePostThunk } from '../../redux/posts/posts-thunk';
-import { deletePostService } from '../../services/posts-service';
 
 export const PostCard = ({ post }) => {
   const { pathname } = useLocation();
