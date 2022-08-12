@@ -6,7 +6,10 @@ import { lazy, Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
+import { Appear } from './components/Appear/Appear';
 import { Layout } from './components/Layout/Layout';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
+import { PublicRoute } from './components/PublicRoute/PublicRoute';
 import { getAccessTokenSelector } from './redux/auth/auth-selectors';
 import { getProfileThunk } from './redux/profile/profile-thunk';
 
@@ -34,54 +37,72 @@ export const App = () => {
         <Route
           index
           element={
-            <Suspense fallback={<p>Loading ...</p>}>
-              <HomePage />
-            </Suspense>
+            <Appear key="home">
+              <Suspense fallback={<p>Loading ...</p>}>
+                <HomePage />
+              </Suspense>
+            </Appear>
           }
         />
 
         <Route
           path="/login"
           element={
-            <Suspense fallback={<p>Loading ...</p>}>
-              <LoginPage />
-            </Suspense>
+            <Appear key="/login">
+              <PublicRoute>
+                <Suspense fallback={<p>Loading ...</p>}>
+                  <LoginPage />
+                </Suspense>
+              </PublicRoute>
+            </Appear>
           }
         />
 
         <Route
           path="/join"
           element={
-            <Suspense fallback={<p>Loading ...</p>}>
-              <JoinPage />
-            </Suspense>
+            <Appear key="/join">
+              <PublicRoute>
+                <Suspense fallback={<p>Loading ...</p>}>
+                  <JoinPage />
+                </Suspense>
+              </PublicRoute>
+            </Appear>
           }
         />
 
         <Route
           path="/account"
           element={
-            <Suspense fallback={<p>Loading ...</p>}>
-              <AccountPage />
-            </Suspense>
+            <Appear key="/account">
+              <PrivateRoute>
+                <Suspense fallback={<p>Loading ...</p>}>
+                  <AccountPage />
+                </Suspense>
+              </PrivateRoute>
+            </Appear>
           }
         />
 
         <Route
           path="/posts"
           element={
-            <Suspense fallback={<p>Loading ...</p>}>
-              <PostListPage />
-            </Suspense>
+            <Appear key="/posts">
+              <Suspense fallback={<p>Loading ...</p>}>
+                <PostListPage />
+              </Suspense>
+            </Appear>
           }
         />
 
         <Route
           path="/posts/:postId"
           element={
-            <Suspense fallback={<p>Loading ...</p>}>
-              <SinglePostPage />
-            </Suspense>
+            <Appear key="/profile/:postId">
+              <Suspense fallback={<p>Loading ...</p>}>
+                <SinglePostPage />
+              </Suspense>
+            </Appear>
           }
         >
           <Route
@@ -97,18 +118,24 @@ export const App = () => {
         <Route
           path="/new-post"
           element={
-            <Suspense fallback={<p>Loading ...</p>}>
-              <NewPostPage />
-            </Suspense>
+            <Appear key="/new-post">
+              <PrivateRoute>
+                <Suspense fallback={<p>Loading ...</p>}>
+                  <NewPostPage />
+                </Suspense>
+              </PrivateRoute>
+            </Appear>
           }
         />
 
         <Route
           path="*"
           element={
-            <Suspense fallback={<p>Loading ...</p>}>
-              <NotFound />
-            </Suspense>
+            <Appear key="not-found">
+              <Suspense fallback={<p>Loading ...</p>}>
+                <NotFound />
+              </Suspense>
+            </Appear>
           }
         />
       </Route>

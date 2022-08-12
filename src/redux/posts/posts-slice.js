@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { STATUS } from '../../constants/status';
 
 import { postsInitialState } from './posts-initial-state';
-import { getPostsThunk } from './posts-thunk';
+import { deletePostThunk, getPostsThunk } from './posts-thunk';
 
 const postsSlice = createSlice({
   name: 'posts',
@@ -18,6 +18,10 @@ const postsSlice = createSlice({
     },
     [getPostsThunk.rejected]: state => {
       state.status = STATUS.Error;
+    },
+
+    [deletePostThunk.fulfilled]: (state, actions) => {
+      state.posts.data = state.posts.data.filter(post => post.id !== actions.payload);
     },
   },
 });

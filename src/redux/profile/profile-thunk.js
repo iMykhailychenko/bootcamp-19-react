@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { setAuthToken } from '../../http/http';
-import { getUsersService } from '../../services/users-service';
+import { getUsersService, updateUser } from '../../services/users-service';
 import { getAccessTokenSelector, getTokenTypeSelector } from '../auth/auth-selectors';
 
 export const getProfileThunk = createAsyncThunk('profile/get-profile', async (_, { getState, rejectWithValue }) => {
@@ -18,4 +18,8 @@ export const getProfileThunk = createAsyncThunk('profile/get-profile', async (_,
   }
 
   return rejectWithValue();
+});
+
+export const updateAccountThunk = createAsyncThunk('profile/update', payload => {
+  return updateUser(payload);
 });

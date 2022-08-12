@@ -1,13 +1,17 @@
 import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { loginThunk } from '../../../redux/auth/auth-thubk';
 import { createUserService } from '../../../services/users-service';
 
 const year = new Date().getFullYear();
 
 export const JoinPage = () => {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
   const [values, setValues] = useState({
     email: '',
@@ -28,6 +32,9 @@ export const JoinPage = () => {
     createUserService(values)
       .then(() => {
         toast.success('Success');
+        dispatch(loginThunk({ email: values.email, password: values.password }))
+          .unwrap()
+          .catch(() => toast.error('Error'));
       })
       .catch(() => {
         toast.error('Error');

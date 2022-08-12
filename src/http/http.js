@@ -1,13 +1,17 @@
 import axios from 'axios';
 
-export const http = axios.create({
+export const privateApi = axios.create({
+  baseURL: process.env.NODE_ENV === 'production' ? '/api' : 'http://70.34.201.18:4444',
+});
+
+export const publicApi = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? '/api' : 'http://70.34.201.18:4444',
 });
 
 export const setAuthToken = token => {
-  http.defaults.headers.Authorization = token;
+  privateApi.defaults.headers.common.Authorization = token;
 };
 
 export const deleteAuthToken = () => {
-  delete http.defaults.headers.Authorization;
+  delete privateApi.defaults.headers.common.Authorization;
 };

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { STATUS } from '../../constants/status';
 
 import { profileInitialState } from './profile-intial-state';
-import { getProfileThunk } from './profile-thunk';
+import { getProfileThunk, updateAccountThunk } from './profile-thunk';
 
 const profileSlice = createSlice({
   name: 'profile',
@@ -18,6 +18,10 @@ const profileSlice = createSlice({
     },
     [getProfileThunk.rejected]: state => {
       state.status = STATUS.Error;
+    },
+
+    [updateAccountThunk.fulfilled]: (state, { payload }) => {
+      state.data = payload;
     },
   },
 });

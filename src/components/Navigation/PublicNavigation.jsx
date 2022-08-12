@@ -12,6 +12,12 @@ export const PublicNavigation = () => {
           </li>
 
           <li className="nav-item">
+            <NavLink to="/posts" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              Post list
+            </NavLink>
+          </li>
+
+          <li className="nav-item">
             <NavLink to="/login" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               Log In
             </NavLink>

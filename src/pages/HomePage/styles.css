@@ -1,0 +1,13 @@
+.banner .enter {
+  opacity: 0;
+}
+
+.banner .enter-done {
+  opacity: 1;
+  transition: 0.3s ease-in-out;
+}
+
+.banner .exit-active {
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+}

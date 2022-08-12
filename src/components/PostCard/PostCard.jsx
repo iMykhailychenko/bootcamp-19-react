@@ -1,9 +1,27 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { cutString } from '../../helpers/cut-string';
+import { deletePostThunk } from '../../redux/posts/posts-thunk';
+import { deletePostService } from '../../services/posts-service';
 
 export const PostCard = ({ post }) => {
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
+
+  const profileId = useSelector(state => state.profile.data?.id);
+
+  const handleDelete = () => {
+    dispatch(deletePostThunk(post.id))
+      .unwrap()
+      .then(() => {
+        toast.success('You have successfully deleted your post!');
+      })
+      .catch(() => {
+        toast.error('Something went wrong!');
+      });
+  };
 
   return (
     <div className="col-12 col-xl-6 col-xxl-4 mb-4">
@@ -33,9 +51,11 @@ export const PostCard = ({ post }) => {
           </ul>
 
           <div className="d-flex">
-            <button type="button" className="btn btn-danger">
-              Delete post
-            </button>
+            {post.user_id === profileId && (
+              <button onClick={handleDelete} type="button" className="btn btn-danger">
+                Delete post
+              </button>
+            )}
 
             <Link
               state={{ pathname, title: 'Go to posts list' }}

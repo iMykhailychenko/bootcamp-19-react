@@ -1,15 +1,20 @@
-import { http } from '../http/http';
+import { publicApi, privateApi } from '../http/http';
 
 export const createUserService = body => {
-  return http.post('/users/create', body);
+  return publicApi.post('/users/create', body);
 };
 
 export const loginUserService = async body => {
-  const { data } = await http.post('/users/login', body);
+  const { data } = await publicApi.post('/users/login', body);
   return data;
 };
 
 export const getUsersService = async () => {
-  const { data } = await http.get('/users/profile');
+  const { data } = await privateApi.get('/users/profile');
+  return data;
+};
+
+export const updateUser = async body => {
+  const { data } = await privateApi.put('/users/profile', body);
   return data;
 };
